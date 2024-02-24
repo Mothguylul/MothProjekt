@@ -15,6 +15,8 @@ public class NewPlayer : MonoBehaviour
     [SerializeField] private float wallSlidingSpeed;
 
     public bool IsFacingRight { get; private set; } = true;
+    public PlayerInventory Inventory {  get; private set; }
+    public static NewPlayer Instance { get; private set; }
 
     private PlayerMovement playermovement;
 
@@ -33,7 +35,18 @@ public class NewPlayer : MonoBehaviour
     private void Awake()
     {
         playermovement = GetComponent<PlayerMovement>();
-        rb = GetComponent<Rigidbody2D>();     
+        rb = GetComponent<Rigidbody2D>();
+        Inventory = new PlayerInventory();
+
+        if (Instance is null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
     private void Start()
     {
@@ -81,6 +94,7 @@ public class NewPlayer : MonoBehaviour
 
     private bool IsOnWall(float xDir)
     {
+        
         if (xDir == 0)
             return false;
 

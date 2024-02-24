@@ -32,12 +32,12 @@ public class EndLogic : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         if (Endpanel.activeInHierarchy)
             Time.timeScale = 0;
-          coinAmount = SetCoins();
+        NewPlayer.Instance.Inventory.AddCoins(CalculateCoins());
         coinEndText.text = $"{coinAmount}";
         CoinCounter.text = "";
-        CoinCounter.text += $"{coinAmount}";
+        CoinCounter.text += $"{coinAmount}";      
     }
-    public int SetCoins()
+    public int CalculateCoins()
     {
         if (dc.CurrentdeathCount <= 5)
             return Random.Range(9000, 10000);

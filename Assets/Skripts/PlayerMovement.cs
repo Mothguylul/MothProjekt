@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     public float speed;
+  
    
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float wallSlidingSpeed;

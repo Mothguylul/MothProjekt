@@ -27,29 +27,29 @@ public class PlayerDeath : MonoBehaviour
         if (collision.gameObject.CompareTag("Trap"))
         {
             StartCoroutine(Dieco());
-            
-
         }
     }
-
     public IEnumerator Dieco()
     {   
         playerDied = true;
-        GetComponent<NewPlayer>().enabled = false;
-        GetComponent<PlayerAnimations>().enabled = false;
+        if (playerDied)
+        {
+          GetComponent<NewPlayer>().enabled = false;
+          GetComponent<PlayerAnimations>().enabled = false;
        
+          rigid.bodyType = RigidbodyType2D.Static;
+          dustPS.Stop();
+          anim.Play("Die");
 
-        rigid.bodyType = RigidbodyType2D.Static;
-        dustPS.Stop();
-        anim.Play("Die");
+          yield return new WaitForSeconds(1);
+          RestartLevel1();
+          yield return new WaitForSeconds(.2f);
+          SetBodyType();
+          SetSkriptsback();
 
-        yield return new WaitForSeconds(1);
-        RestartLevel1();
-        yield return new WaitForSeconds(.2f);
-        SetBodyType();
-        SetSkriptsback();
+          playerdied?.Invoke();
 
-        playerdied?.Invoke();
+        }
         playerDied = false;
 
     }
@@ -73,8 +73,6 @@ public class PlayerDeath : MonoBehaviour
    
     public void RestartLevel1()
     {
-
         transform.position = startpos.transform.position;
-
     }
 }
