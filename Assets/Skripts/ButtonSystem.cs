@@ -29,6 +29,7 @@ public class ButtonSystem : MonoBehaviour
 
     public void Shop()
     {
-        SceneManager.LoadScene("Shop");
+        NewPlayer.Instance.gameObject.SetActive(false);
+        SceneManager.LoadScene("Garage");
     }
 }

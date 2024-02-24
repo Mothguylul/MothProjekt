@@ -11,7 +11,7 @@ public class EndLogic : MonoBehaviour
     public DeathCounter dc;
     public TextMeshProUGUI coinEndText;
     public TextMeshProUGUI CoinCounter;
-    public int coinAmount;
+  
    
     // Start is called before the first frame update
     void Start()
@@ -32,10 +32,11 @@ public class EndLogic : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         if (Endpanel.activeInHierarchy)
             Time.timeScale = 0;
-        NewPlayer.Instance.Inventory.AddCoins(CalculateCoins());
+        int coinAmount = CalculateCoins();    
+        int playerTotalCoins = NewPlayer.Instance.Inventory.CoinAmount;
         coinEndText.text = $"{coinAmount}";
         CoinCounter.text = "";
-        CoinCounter.text += $"{coinAmount}";      
+        CoinCounter.text += $"{playerTotalCoins}";      
     }
     public int CalculateCoins()
     {
