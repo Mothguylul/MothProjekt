@@ -19,7 +19,8 @@ public class PlayerDeath : MonoBehaviour
     {
 
         anim = GetComponent<Animator>();
-        rigid = GetComponent<Rigidbody2D>();    
+        rigid = GetComponent<Rigidbody2D>();  
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

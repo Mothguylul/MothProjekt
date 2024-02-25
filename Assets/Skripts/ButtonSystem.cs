@@ -25,11 +25,17 @@ public class ButtonSystem : MonoBehaviour
     public void NextLevel()
     {
         SceneManager.LoadScene("Level2");
+        Time.timeScale = 1;
     }
-
     public void Shop()
     {
         NewPlayer.Instance.gameObject.SetActive(false);
         SceneManager.LoadScene("Garage");
+    }
+    public void Level1()
+    {      
+        SceneManager.LoadScene("Level2");
+        Time.timeScale = 1;
+        NewPlayer.Instance.gameObject.SetActive(true);
     }
 }

@@ -18,7 +18,7 @@ public class NewPlayer : MonoBehaviour
     public PlayerInventory Inventory {  get; private set; }
     public static NewPlayer Instance { get; private set; }
 
-    private PlayerMovement playermovement;
+    public PlayerMovement playermovement;
 
     public enum MovementState
     {
