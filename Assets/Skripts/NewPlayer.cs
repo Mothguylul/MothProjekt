@@ -50,7 +50,8 @@ public class NewPlayer : MonoBehaviour
     }
     private void Start()
     {
-       state = MovementState.Idle;      
+       state = MovementState.Idle;     
+       
     }
 
     private void Update()

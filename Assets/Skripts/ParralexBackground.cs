@@ -8,15 +8,16 @@ public class ParralexBackground : MonoBehaviour
     private float lenght;
     private float startpos;
     public float parallexEffect;
-    public GameObject cam;
+    private  Camera cam;
     // Start is called before the first frame update
     void Start()
     {
         startpos = transform.position.x;
         lenght = GetComponent<SpriteRenderer>().bounds.size.x;
+        cam = FindAnyObjectByType<Camera>();
     }
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         float temp = (cam.transform.position.x * (1 - parallexEffect));
         float distance = (cam.transform.position.x * parallexEffect);

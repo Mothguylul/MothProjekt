@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class PlayerInventory 
 {
@@ -9,11 +11,13 @@ public class PlayerInventory
     public int CoinAmount => coinAmount;
     public event Action coinAmountChanged;
 
+    
     public void AddCoins(int amount)
     {
-        coinAmount += amount;
+        coinAmount += amount + 30000;
         coinAmountChanged?.Invoke();
     }
+
 
     public void RemoveCoins(int amount)
     {
