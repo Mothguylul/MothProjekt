@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,6 +12,7 @@ public class EndLogic : MonoBehaviour
     public DeathCounter dc;
     public TextMeshProUGUI coinEndText;
     public TextMeshProUGUI CoinCounter;
+    public event Action HasEndedLevel1; 
    
     // Start is called before the first frame update
     void Start()
@@ -35,21 +37,22 @@ public class EndLogic : MonoBehaviour
         Game.Inventory.AddCoins(coinAmount);
         coinEndText.text = $"{coinAmount}";
         CoinCounter.text = $"{Game.Inventory.CoinAmount}";
+        HasEndedLevel1?.Invoke();
     }
     public int CalculateCoins()
     {
         if (dc.CurrentdeathCount <= 5)
-            return Random.Range(9000, 10000);
+            return  UnityEngine.Random.Range(9000, 10000);
         else if (dc.CurrentdeathCount <= 10)
-            return Random.Range(7000, 8000);
+            return UnityEngine.Random.Range(7000, 8000);
         else if (dc.CurrentdeathCount <= 20)
-            return Random.Range(4000, 6000);
+            return UnityEngine.Random.Range(4000, 6000);
         else if (dc.CurrentdeathCount <= 35)
-            return Random.Range(2000, 4000);
+            return UnityEngine.Random.Range(2000, 4000);
         else if (dc.CurrentdeathCount <= 50)
-            return Random.Range(1, 2000);
+            return UnityEngine.Random.Range(1, 2000);
        
-            return Random.Range(1, 5);
+            return UnityEngine.Random.Range(1, 5);
     }
 }
 

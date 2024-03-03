@@ -15,6 +15,7 @@ public class SpeedBar : MonoBehaviour
     public Slider SpeedBarSlider;
     public Image fillAmount;
     private int UpgradeSpeedPrice;
+    public TextMeshProUGUI ButtonText;
 
     // Start is called before the first frame update
     void Start()
@@ -22,27 +23,30 @@ public class SpeedBar : MonoBehaviour
         speedBarIncreased += UpdateSliderValue;
         UpgradeSpeedPrice = 6000;
         SpeedBarSlider.value = 0.1f;
-        fillAmount.color = Color.red;
-
+        fillAmount.color = Color.yellow;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        ButtonText.text = $"{UpgradeSpeedPrice}";
+        if (NewPlayer.Instance.Inventory.CoinAmount < UpgradeSpeedPrice)
+        {
+            ButtonText.color = Color.red;
+        }
     }
 
     void colorChanger()
     {
-        Color speedColor = Color.Lerp(Color.red, Color.green, (SpeedBarSlider.minValue / SpeedBarSlider.maxValue));
+        Color speedColor = Color.Lerp(Color.yellow, Color.green, SpeedBarSlider.minValue / SpeedBarSlider.maxValue);
         fillAmount.color = speedColor;
     }
 
     public void SpeedUpgraded()
     {
-        if (NewPlayer.Instance.Inventory.CoinAmount > UpgradeSpeedPrice)
+        if (NewPlayer.Instance.Inventory.CoinAmount >= UpgradeSpeedPrice)
         {
-            NewPlayer.Instance.playermovement.speed += 10f;
+            NewPlayer.Instance.playermovement.speed += 1f;
             colorChanger();
             NewPlayer.Instance.Inventory.RemoveCoins(UpgradeSpeedPrice);
             speedBarIncreased?.Invoke();
@@ -50,12 +54,13 @@ public class SpeedBar : MonoBehaviour
         }
         else
         {
+           
             Debug.Log("Not enough Coins!");
         }
     }
     public void UpdateSliderValue()
     {
         SpeedBarSlider.value += 0.1f;
-        UpgradeSpeedPrice += 4000;
+        UpgradeSpeedPrice += 3000;
     }
 }

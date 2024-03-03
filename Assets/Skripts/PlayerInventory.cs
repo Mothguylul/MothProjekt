@@ -14,7 +14,7 @@ public class PlayerInventory
     
     public void AddCoins(int amount)
     {
-        coinAmount += amount + 30000;
+        coinAmount += amount;
         coinAmountChanged?.Invoke();
     }
 

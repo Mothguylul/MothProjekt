@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
   
    
-    [SerializeField] private float jumpSpeed;
+    [SerializeField] public float jumpSpeed;
     [SerializeField] private float wallSlidingSpeed;
     private bool canDoubleJump = false;
 

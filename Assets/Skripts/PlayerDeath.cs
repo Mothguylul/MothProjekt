@@ -17,12 +17,9 @@ public class PlayerDeath : MonoBehaviour
 
     private void Start()
     {
-
         anim = GetComponent<Animator>();
-        rigid = GetComponent<Rigidbody2D>();  
-        
+        rigid = GetComponent<Rigidbody2D>();         
     }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Trap"))
@@ -52,9 +49,7 @@ public class PlayerDeath : MonoBehaviour
 
         }
         playerDied = false;
-
     }
-
     private void SetBodyType()
     {
         rigid.bodyType = RigidbodyType2D.Dynamic;

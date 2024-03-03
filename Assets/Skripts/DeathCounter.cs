@@ -9,14 +9,10 @@ public class DeathCounter : MonoBehaviour
     private PlayerDeath pd;
     private int currentDeathCount;
     public int CurrentdeathCount => currentDeathCount;
-   // private bool hasDied;
     
     // Start is called before the first frame update
     void Start()
     {
-     
-        //hasDied = false;
-
         currentDeathCount = 0;     
         deathcount.text = $"{currentDeathCount}";
         PlayerDeath playerdeath = FindObjectOfType<PlayerDeath>();
