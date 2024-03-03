@@ -4,6 +4,6 @@ using UnityEngine;
 
 public static class Game
 {
-    public static NewPlayer Player => NewPlayer.Instance;
-    public static PlayerInventory Inventory => NewPlayer.Instance.Inventory;
+    public static Player Player => Player.Instance;
+    public static PlayerInventory Inventory => Player.Instance.Inventory;
 }

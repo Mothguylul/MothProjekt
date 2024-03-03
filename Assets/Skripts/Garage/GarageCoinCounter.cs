@@ -24,6 +24,6 @@ public class GarageCoinCounter : MonoBehaviour
 
     public void UpdateCoins()
     {
-        coinAmountOfPlayer.text = NewPlayer.Instance.Inventory.CoinAmount.ToString();
+        coinAmountOfPlayer.text = Player.Instance.Inventory.CoinAmount.ToString();
     }
 }
