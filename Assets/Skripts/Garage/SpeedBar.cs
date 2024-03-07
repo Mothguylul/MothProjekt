@@ -9,8 +9,6 @@ using UnityEditor.Experimental.GraphView;
 
 public class SpeedBar : MonoBehaviour
 {
-    // public TextMeshProUGUI coinAmountofPlayer;
-    public event Action speedBarIncreased;
     public Button UpgradeButtonForSpeed;
     public Slider SpeedBarSlider;
     public Image fillAmount;
@@ -20,20 +18,18 @@ public class SpeedBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speedBarIncreased += UpdateSliderValue;
         UpgradeSpeedPrice = 6000;
         SpeedBarSlider.value = 0.1f;
         fillAmount.color = Color.yellow;
+        ButtonText.text = $"{UpgradeSpeedPrice}";
+        Player.Instance.Inventory.coinAmountChanged += UpdateTextColor;
     }
 
     // Update is called once per frame
     void Update()
     {
-        ButtonText.text = $"{UpgradeSpeedPrice}";
-        if (Player.Instance.Inventory.CoinAmount < UpgradeSpeedPrice)
-        {
-            ButtonText.color = Color.red;
-        }
+       
+       
     }
 
     void colorChanger()
@@ -49,18 +45,23 @@ public class SpeedBar : MonoBehaviour
             Player.Instance.PlayerMovement.UpgradeSpeed();
             colorChanger();
             Player.Instance.Inventory.RemoveCoins(UpgradeSpeedPrice);
-            speedBarIncreased?.Invoke();
-            Debug.Log("Has Upgraded speed");
-        }
-        else
-        {
-           
-            Debug.Log("Not enough Coins!");
+            UpdateSliderValue();
+          
         }
     }
-    public void UpdateSliderValue()
+    private void UpdateSliderValue()
     {
         SpeedBarSlider.value += 0.1f;
         UpgradeSpeedPrice += 3000;
+        UpdateTextColor();
+    }
+
+    private void UpdateTextColor()
+    {
+        if (Player.Instance.Inventory.CoinAmount < UpgradeSpeedPrice)
+        {
+            ButtonText.color = Color.red;
+        }
+        ButtonText.text = $"{UpgradeSpeedPrice}";
     }
 }

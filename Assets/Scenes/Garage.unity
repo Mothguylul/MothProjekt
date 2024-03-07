@@ -2525,6 +2525,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48de0565cd2c0674eb484e628e176718, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelOptions: {fileID: 0}
+  playAndOptions: {fileID: 0}
+  SwingCave: {fileID: 0}
 --- !u!1 &1472187748
 GameObject:
   m_ObjectHideFlags: 0
@@ -3412,6 +3415,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48de0565cd2c0674eb484e628e176718, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelOptions: {fileID: 0}
+  playAndOptions: {fileID: 0}
+  SwingCave: {fileID: 0}
 --- !u!1 &1791078726
 GameObject:
   m_ObjectHideFlags: 0

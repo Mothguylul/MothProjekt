@@ -8,27 +8,18 @@ using UnityEngine.UI;
 using UnityEditor.Experimental.GraphView;
 public class JumpBar : MonoBehaviour
 {
-    public event Action jumpBarChanged;
     public Slider jumpPowerBar;
     public Image fillAmountOfJumpPower;
-    private int UpgradeJumpPowerPrice = 6000;
+    private int UpgradeJumpPowerPrice;
     public Button jumpPowerUpgrade;
     public  TextMeshProUGUI ButtonText;
     // Start is called before the first frame update
     void Start()
     {
-        jumpBarChanged += UpdateJumpPowerSlider;
+        UpgradeJumpPowerPrice = 6000;
         jumpPowerBar.value = 0.3f;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        Player.Instance.Inventory.coinAmountChanged += UpdateTextColor;
         ButtonText.text = $"{UpgradeJumpPowerPrice}";
-        if(Player.Instance.Inventory.CoinAmount < UpgradeJumpPowerPrice)
-        {
-            ButtonText.color = Color.red;
-        }
     }
 
     public void JumpPowerUpgrade()
@@ -37,12 +28,7 @@ public class JumpBar : MonoBehaviour
         {
             Player.Instance.PlayerMovement.UpgradeJumpSpeed();
             Player.Instance.Inventory.RemoveCoins(UpgradeJumpPowerPrice);
-            jumpBarChanged?.Invoke();
-            Debug.Log("Has Jump Increased");
-        }
-        else
-        {
-            Debug.Log("Not enough Coins");
+            UpdateJumpPowerSlider();
         }
     }
 
@@ -50,6 +36,15 @@ public class JumpBar : MonoBehaviour
     {
         jumpPowerBar.value += 0.1f;
         UpgradeJumpPowerPrice += 4000;
+        UpdateTextColor();
+    }
 
+    private void UpdateTextColor()
+    {
+        if (Player.Instance.Inventory.CoinAmount < UpgradeJumpPowerPrice)
+        {
+            ButtonText.color = Color.red;
+        }
+        ButtonText.text = $"{UpgradeJumpPowerPrice}";
     }
 }
