@@ -5,24 +5,23 @@ using UnityEngine;
 public class plattform : MonoBehaviour
 {
 
-    public BoxCollider2D boxCollider;
-    public Transform border;
-    public GameObject player;
-    // Start is called before the first frame update
-    void Start()
+    private BoxCollider2D boxCollider;
+    [SerializeField] private Transform border;
+    private Transform playerTransform;
+
+    private void Start()
     {
-        
+       boxCollider = GetComponent<BoxCollider2D>();
+       playerTransform = Game.Player.GetComponent<Transform>(); 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (player.transform.position.y > border.transform.position.y)
+        if (playerTransform.transform.position.y > border.transform.position.y)
             SetColliderTrue();
         else
             boxCollider.enabled = false;
     }
-
     private void SetColliderTrue()
     {
         Invoke(nameof(SetCollider), 0.1f);

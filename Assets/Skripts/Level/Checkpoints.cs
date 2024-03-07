@@ -5,18 +5,12 @@ using UnityEngine.UIElements;
 
 public class Checkpoints : MonoBehaviour
 {
-    public ParticleSystem explosionCheckPoints;
+    private ParticleSystem explosionCheckPoints;
     private bool hasPlayedExplosion = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        explosionCheckPoints = GetComponentInChildren<ParticleSystem>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -30,8 +24,6 @@ public class Checkpoints : MonoBehaviour
                 explosionCheckPoints.Play();
                 hasPlayedExplosion = true;
             }
-            else if (hasPlayedExplosion)
-                return;
         }
     }
 }

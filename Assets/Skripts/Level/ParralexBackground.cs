@@ -7,7 +7,7 @@ public class ParralexBackground : MonoBehaviour
 {
     private float lenght;
     private float startpos;
-    public float parallexEffect;
+    [SerializeField]private float parallexEffect;
     private  Camera cam;
     // Start is called before the first frame update
     void Start()

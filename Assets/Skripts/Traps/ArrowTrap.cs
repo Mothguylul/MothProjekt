@@ -7,64 +7,47 @@ using UnityEngine;
 
 public class ArrowTrap : MonoBehaviour
 {
-    public GameObject arrow;
-    public Transform StartposArrow;
-    public GameObject trap;
+    [SerializeField]private GameObject arrow;
+    [SerializeField]private Transform StartposArrow;
+    [SerializeField]private GameObject trap;
     [SerializeField] private float speed;
-    private bool HasEntered;
-    public GameObject rageMode;
-   
-    // Start is called before the first frame update
+    private bool hasEntered;
+  
     void Start()
     {
-       arrow.transform.position = StartposArrow.transform.position;
+        arrow.transform.position = StartposArrow.transform.position;
         PlayerDeath playerdeath = FindObjectOfType<PlayerDeath>();
         playerdeath.playerdied += ResetObjects;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (HasEntered)
+        if (hasEntered)
         {
-            MoveArrowToPlayer();
-            rageMode.SetActive(true);
-            Invoke(nameof(SetRageFalse), 0.15f);
-            Debug.Log("Set Ragemode false");
+            MoveArrowToTrap();         
         }
 
         if(arrow.transform.position == trap.transform.position)
         {
-            rageMode.SetActive(false);
             arrow.gameObject.SetActive(false);
             enabled = false;
-
         }
     }
+
     private void ResetObjects()
     {
-        HasEntered = false;
+        hasEntered = false;
         arrow.SetActive(true);
         enabled = true;
         arrow.transform.position = StartposArrow.transform.position;
-        if(rageMode != null) 
-            rageMode.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        HasEntered = true;
+        hasEntered = true;
     }
-
-    private void SetRageFalse()
-    {
-       rageMode.SetActive(false);
-    }
-    public void MoveArrowToPlayer()
+    public void MoveArrowToTrap()
     {
         arrow.transform.position = Vector2.MoveTowards(arrow.transform.position, trap.transform.position, speed * Time.deltaTime);
-
-        // Vector3 direction = (player.transform.position - arrow.transform.position).normalized;
-        // arrow.transform.Translate(direction * speed * Time.deltaTime);
     }
 }
