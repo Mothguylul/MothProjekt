@@ -6,11 +6,9 @@ using UnityEngine;
 public class DeathCounter : MonoBehaviour
 {
     public TextMeshProUGUI deathcount;
-    private PlayerDeath pd;
     private int currentDeathCount;
     public int CurrentdeathCount => currentDeathCount;
     
-    // Start is called before the first frame update
     void Start()
     {
         currentDeathCount = 0;     

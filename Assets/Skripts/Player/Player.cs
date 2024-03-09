@@ -9,10 +9,11 @@ public class Player : MonoBehaviour
     public static Player Instance { get; private set; }
 
     private Rigidbody2D rigidBody;
-
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private float wallCheckDistance;
+
+    [SerializeField] private float coyoteTimer = 0f, coyoteTime = 1f;
     public bool IsFacingRight { get; private set; } = true;
     public PlayerInventory Inventory {  get; private set; }
     public PlayerMovement PlayerMovement { get; private set; }
@@ -60,6 +61,11 @@ public class Player : MonoBehaviour
         {
             IsFacingRight = true;        
         }
+
+        if (IsOnGround())
+            coyoteTimer = coyoteTime;
+        else
+            coyoteTimer -= Time.deltaTime;
     }
     private MovementState SetState(float xDir)
     {
@@ -100,8 +106,8 @@ public class Player : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + Vector3.down * groundCheckRadius);
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + wallCheckDistance, transform.position.y, transform.position.z));
     }
-
-    private void HandleInput(float xDir, bool pressedJump)
+    
+    private void HandleInput(float xDir,  bool pressedJump)
     {
         switch(state)
         {
@@ -121,7 +127,7 @@ public class Player : MonoBehaviour
                     PlayerMovement.Move(xDir);
                     
                 }
-                if (pressedJump)
+                if (pressedJump || pressedJump && coyoteTimer >= 0)
                     PlayerMovement.Jump();
                 break;
 
@@ -132,8 +138,8 @@ public class Player : MonoBehaviour
                     PlayerMovement.Move(xDir);
                 else if (xDir == 0)
                     rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
-                if (pressedJump)
-                    PlayerMovement.TryToDoubleJump();
+                if (pressedJump)         
+                    PlayerMovement.TryToDoubleJump();            
                 break;
 
             // if we're on a wall we can only wall slide or wall jump

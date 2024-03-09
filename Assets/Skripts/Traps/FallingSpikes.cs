@@ -22,7 +22,6 @@ public class FallingSpikes : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Falls");
             StartCoroutine(Fall());
         }     
     }

@@ -10,7 +10,7 @@ public class ArrowTrap : MonoBehaviour
     [SerializeField]private GameObject arrow;
     [SerializeField]private Transform StartposArrow;
     [SerializeField]private GameObject trap;
-    [SerializeField] private float speed;
+    [SerializeField]private float speed;
     private bool hasEntered;
   
     void Start()

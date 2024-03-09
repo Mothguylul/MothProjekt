@@ -25,8 +25,6 @@ public class PlayerInventory
 
         if (coinAmount <= 0)
             coinAmount = 0;
-
         coinAmountChanged?.Invoke();
-
     }
 }
