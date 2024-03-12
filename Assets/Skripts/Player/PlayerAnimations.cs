@@ -8,8 +8,10 @@ public class PlayerAnimations : MonoBehaviour
     private Player np;
     private Animator anim;
     private SpriteRenderer spr;
-    [SerializeField]private ParticleSystem DoubleJumpParticles;
     private bool hasPlayedParticles = false;
+
+    private bool canDoubleJump;
+    public ParticleSystem jumpEffect;
 
 
     // Start is called before the first frame update
@@ -41,14 +43,12 @@ public class PlayerAnimations : MonoBehaviour
                 if (Player.Instance.PlayerMovement.canDoubleJump)
                 {
                     anim.Play("Jump");
-                    if (!hasPlayedParticles)
-                    {
-                       DoubleJumpParticles.Play();
-                       hasPlayedParticles = true;
-                    }
+                    canDoubleJump = true;
                 }
                 else
-                    anim.Play("Double_Jump");
+                {                 
+                    anim.Play("Double_Jump");                                     
+                }
                 break;
             case Player.MovementState.WallSliding:
                 anim.Play("WallSlide");

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ButtonSystem : MonoBehaviour
 {
-    public GameObject levelOptions, playAndOptions;
+   // public GameObject levelOptions, playAndOptions;
     public Button SwingCave;
     public EndLogic endLogic {  get; private set; }
 
@@ -52,11 +52,11 @@ public class ButtonSystem : MonoBehaviour
         Game.Player.gameObject.SetActive(false);
     }
 
-    public void Play()
+   /* public void Play()
     {
         levelOptions.SetActive(true);
         playAndOptions.SetActive(false);
-    }
+    }*/
     public void SetButtonsInteractabel()
     {
         SwingCave.interactable = true;

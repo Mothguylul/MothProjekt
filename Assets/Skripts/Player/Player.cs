@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
+using static UnityEngine.Rendering.DebugUI;
+
 
 public class Player : MonoBehaviour
 {
@@ -13,10 +16,13 @@ public class Player : MonoBehaviour
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private float wallCheckDistance;
 
-    [SerializeField] private float coyoteTimer = 0f, coyoteTime = 1f;
+
+    [SerializeField] private float coyoteTimer = 0.2f;
     public bool IsFacingRight { get; private set; } = true;
-    public PlayerInventory Inventory {  get; private set; }
+    public PlayerInventory Inventory { get; private set; }
     public PlayerMovement PlayerMovement { get; private set; }
+
+    public event Action ShouldPlayParticles;
 
     public enum MovementState
     {
@@ -28,8 +34,19 @@ public class Player : MonoBehaviour
     }
 
     private MovementState state = MovementState.Idle;
-    public MovementState State => state;
-    
+    public MovementState State
+    {
+        get => state;
+        private set
+        {
+            if(state == MovementState.Falling && (value == MovementState.Idle || value == MovementState.Running))
+            {
+                ShouldPlayParticles?.Invoke();
+            }
+
+            state = value;
+        }
+    }
     private void Awake()
     {
         PlayerMovement = GetComponent<PlayerMovement>();
@@ -45,27 +62,26 @@ public class Player : MonoBehaviour
         {
             Destroy(this);
         }
+        
     }
     private void Update()
     {
         float xDir = Input.GetAxisRaw("Horizontal");
         bool pressedJump = Input.GetKeyDown(KeyCode.Space);
-        state = SetState(xDir);
+        State = SetState(xDir);
         HandleInput(xDir, pressedJump);
 
-        if(xDir < 0)
+        if (xDir < 0)
         {
-            IsFacingRight = false;      
+            IsFacingRight = false;
         }
-        else if (xDir > 0) 
+        else if (xDir > 0)
         {
-            IsFacingRight = true;        
+            IsFacingRight = true;
         }
 
-        if (IsOnGround())
-            coyoteTimer = coyoteTime;
-        else
-            coyoteTimer -= Time.deltaTime;
+        if (rigidBody.velocity.y > 0)
+            coyoteTimer = 0;
     }
     private MovementState SetState(float xDir)
     {
@@ -73,7 +89,7 @@ public class Player : MonoBehaviour
         {
             PlayerMovement.ResetDoubleJump();
             return (xDir == 0) ? MovementState.Idle : MovementState.Running;
-        }     
+        }
 
         if (IsOnWall(xDir))
         {
@@ -86,12 +102,23 @@ public class Player : MonoBehaviour
 
     private bool IsOnGround()
     {
-        return Physics2D.Raycast(transform.position, Vector2.down, groundCheckRadius, whatIsGround);
+        bool grounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckRadius, whatIsGround);
+
+        if (grounded)
+        {
+            coyoteTimer = 1f;
+            return true;
+        }
+        else
+        {
+            coyoteTimer -= Time.deltaTime;
+            return coyoteTimer > 0f;
+        }
     }
 
     private bool IsOnWall(float xDir)
     {
-        
+
         if (xDir == 0)
             return false;
 
@@ -106,17 +133,17 @@ public class Player : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + Vector3.down * groundCheckRadius);
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + wallCheckDistance, transform.position.y, transform.position.z));
     }
-    
-    private void HandleInput(float xDir,  bool pressedJump)
+
+    private void HandleInput(float xDir, bool pressedJump)
     {
-        switch(state)
+        switch (state)
         {
             // if we're idle or running we're on the ground, so we can do both
             case MovementState.Idle:
-                if(xDir == 0 && rigidBody.velocity.y == 0)
+                if (xDir == 0 && rigidBody.velocity.y == 0)
                 {
-                   rigidBody.velocity = new Vector2(0, 0);
-                    
+                    rigidBody.velocity = new Vector2(0, 0);
+
                 }
                 if (pressedJump)
                     PlayerMovement.Jump();
@@ -125,9 +152,9 @@ public class Player : MonoBehaviour
                 if (xDir != 0)
                 {
                     PlayerMovement.Move(xDir);
-                    
+
                 }
-                if (pressedJump || pressedJump && coyoteTimer >= 0)
+                if (pressedJump)
                     PlayerMovement.Jump();
                 break;
 
@@ -138,8 +165,8 @@ public class Player : MonoBehaviour
                     PlayerMovement.Move(xDir);
                 else if (xDir == 0)
                     rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
-                if (pressedJump)         
-                    PlayerMovement.TryToDoubleJump();            
+                if (pressedJump)
+                    PlayerMovement.TryToDoubleJump();
                 break;
 
             // if we're on a wall we can only wall slide or wall jump
